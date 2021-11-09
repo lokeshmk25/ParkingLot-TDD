@@ -15,4 +15,11 @@ public class ParkingLotServiceTest {
         Assertions.assertTrue(available);
     }
 
+    @Test
+    void givenSlotAvailable_WhenParked_ShouldReturnTrue() {
+        ParkingLotService parkingLotService = new ParkingLotService();
+        String park = parkingLotService.park();
+        Assertions.assertEquals("parked",park);
+    }
+
 }
