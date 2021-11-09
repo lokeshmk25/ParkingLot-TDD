@@ -2,17 +2,15 @@ package com.bridgelabz;
 
 public class ParkingLotService {
 
-    private int Slot;
-    public int MAX_SLOT=100;
-    public int LOT=2;
+    public int MAX_SLOT = 100;
+    private boolean result;
 
-
-    public boolean IsSlotAvailable() {
-        return Slot < MAX_SLOT;
+    public boolean IsSlotAvailable(int Slot) {
+        return result = Slot < MAX_SLOT;
     }
 
     public String park() {
-        if (IsSlotAvailable() == true) {
+        if (result == true) {
             return "parked";
         } else {
             return "Slot Not Available";
