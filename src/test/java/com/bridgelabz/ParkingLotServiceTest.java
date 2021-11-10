@@ -9,26 +9,31 @@ import org.junit.jupiter.api.Test;
  * @since 09/11/2021
  */
 public class ParkingLotServiceTest {
+    ParkingLotService parkingLotService = null;
+    Object vehicle = null;
 
     @BeforeEach
     void setUp() {
-        Object vehicle = new Object();
-        ParkingLotService parkingLotService = new ParkingLotService();
+        vehicle = new Object();
+        parkingLotService = new ParkingLotService();
     }
 
     @Test
     void givenAVechicle_WhenParked_ShouldReturnTrue() {
-        ParkingLotService parkingLotService = new ParkingLotService();
         boolean isParked = parkingLotService.park(new Object());
         Assertions.assertTrue(isParked);
     }
 
     @Test
     void givenAVechicle_WhenUnParked_ShouldReturnTrue() {
-        Object vehicle = new Object();
-        ParkingLotService parkingLotService = new ParkingLotService();
         parkingLotService.park(vehicle);
         boolean isUnparked = parkingLotService.unPark(vehicle);
         Assertions.assertTrue(isUnparked);
     }
-}
+
+    @Test
+    void givenVehicle_WhenAlreadyParked_shouldReturnFalse() {
+        parkingLotService.park(vehicle);
+        boolean isParked = parkingLotService.park(new Object());
+        Assertions.assertFalse(isParked);
+}}
