@@ -2,18 +2,18 @@ package com.bridgelabz;
 
 public class ParkingLotService {
 
-    public int MAX_SLOT = 100;
-    private boolean result;
+    private Object vehicle;
 
-    public boolean IsSlotAvailable(int Slot) {
-        return result = Slot < MAX_SLOT;
+    public boolean park(Object vehicle) {
+        this.vehicle = vehicle;
+        return true;
     }
 
-    public String park() {
-        if (result == true) {
-            return "parked";
-        } else {
-            return "Slot Not Available";
+    public boolean unPark(Object vehicle) {
+        if (this.vehicle.equals(vehicle)) {
+            this.vehicle = null;
+            return true;
         }
+        return false;
     }
 }

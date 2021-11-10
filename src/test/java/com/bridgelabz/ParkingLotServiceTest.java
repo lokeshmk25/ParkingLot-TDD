@@ -1,6 +1,7 @@
 package com.bridgelabz;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -8,24 +9,26 @@ import org.junit.jupiter.api.Test;
  * @since 09/11/2021
  */
 public class ParkingLotServiceTest {
-    @Test
-    void givenParkinglot_WhenSlotAvailable_ShouldReturnTrue() {
+
+    @BeforeEach
+    void setUp() {
+        Object vehicle = new Object();
         ParkingLotService parkingLotService = new ParkingLotService();
-        boolean available = parkingLotService.IsSlotAvailable(10);
-        Assertions.assertTrue(available);
     }
 
     @Test
-    void givenParkingLot_WhenSlotNotAvailable_ShouldReturnFalse() {
+    void givenAVechicle_WhenParked_ShouldReturnTrue() {
         ParkingLotService parkingLotService = new ParkingLotService();
-        boolean available = parkingLotService.IsSlotAvailable(101);
-        Assertions.assertFalse(available);
+        boolean isParked = parkingLotService.park(new Object());
+        Assertions.assertTrue(isParked);
     }
 
     @Test
-    void givenSlotAvailable_WhenParked_ShouldReturnTrue() {
+    void givenAVechicle_WhenUnParked_ShouldReturnTrue() {
+        Object vehicle = new Object();
         ParkingLotService parkingLotService = new ParkingLotService();
-        String park = parkingLotService.park();
-        Assertions.assertEquals("parked", park);
+        parkingLotService.park(vehicle);
+        boolean isUnparked = parkingLotService.unPark(vehicle);
+        Assertions.assertTrue(isUnparked);
     }
 }
