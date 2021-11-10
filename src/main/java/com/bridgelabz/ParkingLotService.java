@@ -4,17 +4,30 @@ public class ParkingLotService {
 
     private Object vehicle;
 
-    public boolean park(Object vehicle) {
-        if(this.vehicle != null)
-            return false;
+    public void park(Object vehicle) throws ParkingLotException {
+        if (this.vehicle != null)
+            throw new ParkingLotException("Parking lot is full");
         this.vehicle = vehicle;
-        return true;
     }
 
-    public boolean unPark(Object vehicle) {
-        if(vehicle==null) return false;
+    public void unPark(Object vehicle) throws ParkingLotException {
+        if (vehicle == null)
+            throw new ParkingLotException("Vechicle is not parked");
         if (this.vehicle.equals(vehicle)) {
             this.vehicle = null;
+        }
+         throw new ParkingLotException("This not your vehicle");
+    }
+
+    public boolean isVehicleParked(Object vehicle) {
+        if (this.vehicle.equals(vehicle)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isVehicleUnParked(Object vehicle) {
+        if (this.vehicle.equals(vehicle)) {
             return true;
         }
         return false;

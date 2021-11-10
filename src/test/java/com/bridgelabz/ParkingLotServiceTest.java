@@ -20,34 +20,53 @@ public class ParkingLotServiceTest {
 
     @Test
     void givenAVechicle_WhenParked_ShouldReturnTrue() {
-        boolean isParked = parkingLotService.park(new Object());
-        Assertions.assertTrue(isParked);
+        try {
+            parkingLotService.park(vehicle);
+            boolean isParked = parkingLotService.isVehicleParked(vehicle);
+            Assertions.assertTrue(isParked);
+        } catch (ParkingLotException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     void givenAVechicle_WhenUnParked_ShouldReturnTrue() {
-        parkingLotService.park(vehicle);
-        boolean isUnparked = parkingLotService.unPark(vehicle);
-        Assertions.assertTrue(isUnparked);
+        try {
+            parkingLotService.park(vehicle);
+            parkingLotService.unPark(vehicle);
+            boolean isUnParked = parkingLotService.isVehicleUnParked(vehicle);
+            Assertions.assertTrue(isUnParked);
+        } catch (ParkingLotException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    void givenVehicle_WhenAlreadyParked_shouldReturnFalse() {
-        parkingLotService.park(vehicle);
-        boolean isParked = parkingLotService.park(new Object());
-        Assertions.assertFalse(isParked);
+    void givenVehicle_WhenAlreadyParked_shouldReturnException() {
+        try {
+            parkingLotService.park(vehicle);
+           parkingLotService.park(new Object());
+        } catch (ParkingLotException e) {
+            Assertions.assertEquals("Parking lot is full",e.getMessage());
+        }
     }
 
     @Test
-    void givenNull_WhenUnParked_ShouldReturnFalse() {
-        boolean isUnParked = parkingLotService.unPark(null);
-        Assertions.assertFalse(isUnParked);
+    void givenNull_WhenUnParked_ShouldReturnException() {
+        try {
+            parkingLotService.unPark(null);
+        } catch (ParkingLotException e) {
+                Assertions.assertEquals("Vechicle is not parked",e.getMessage());
+        }
     }
 
     @Test
-    void givenAParkedVehicle_WhenUnparkedDifferentVechicle_ShouldReturnFalse() {
-        parkingLotService.park(vehicle);
-        boolean isUnParked = parkingLotService.unPark(new Object());
-        Assertions.assertFalse(isUnParked);
+    void givenAParkedVehicle_WhenUnparkedDifferentVechicle_ShouldReturnException() {
+        try {
+            parkingLotService.park(vehicle);
+            parkingLotService.unPark(new Object());
+        } catch (ParkingLotException e) {
+           Assertions.assertEquals("This not your vehicle",e.getMessage());
+        }
     }
 }
