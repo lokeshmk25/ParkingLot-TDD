@@ -84,7 +84,6 @@ public class ParkingLotServiceTest {
             Vehicle vehicle = new Vehicle("Tata", "TN-9876");
             Vehicle vehicle1 = new Vehicle("Ford", "TN-954");
             Vehicle vehicle2 = new Vehicle("BMW", "TN-9321");
-            Vehicle vehicle3 = new Vehicle("Audi", "TN-9800");
             parkingLotService.park(vehicle);
             parkingLotService.park(vehicle);
             parkingLotService.park(vehicle1);
