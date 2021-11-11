@@ -77,4 +77,20 @@ public class ParkingLotServiceTest {
             Assertions.assertEquals("Parking lot is full", e.getMessage());
         }
     }
+
+    @Test
+    void givensameVechicle_WhenParked_ShouldNotAdded() {
+        try {
+            Vehicle vehicle = new Vehicle("Tata", "TN-9876");
+            Vehicle vehicle1 = new Vehicle("Ford", "TN-954");
+            Vehicle vehicle2 = new Vehicle("BMW", "TN-9321");
+            Vehicle vehicle3 = new Vehicle("Audi", "TN-9800");
+            parkingLotService.park(vehicle);
+            parkingLotService.park(vehicle);
+            parkingLotService.park(vehicle1);
+            parkingLotService.park(vehicle2);
+        } catch (ParkingLotException e) {
+            Assertions.assertEquals("Parking lot is full", e.getMessage());
+        }
+    }
 }
