@@ -92,22 +92,21 @@ public class ParkingLotServiceTest {
             Assertions.assertEquals("Parking lot is full", e.getMessage());
         }
     }
+
     @Test
     void givenVehicle_WhenParkingLotIsEmpty_shouldNotifyOwner() {
-            Vehicle vehicle = new Vehicle("Tata", "TN-9876");
-            Vehicle vehicle1 = new Vehicle("Ford", "TN-954");
-            Vehicle vehicle2 = new Vehicle("BMW", "TN-9321");
+        Vehicle vehicle = new Vehicle("Tata", "TN-9876");
+        Vehicle vehicle1 = new Vehicle("Ford", "TN-954");
+        Vehicle vehicle2 = new Vehicle("BMW", "TN-9321");
 
-      try {
-          parkingLotService.park(vehicle);
-          parkingLotService.park(vehicle1);
-          parkingLotService.park(vehicle2);
-          boolean IsParkingLotFull= ParkingLotService.parkingLotOwner();
-          Assertions.assertFalse(IsParkingLotFull);
-      } catch (ParkingLotException e) {
-          Assertions.assertEquals("Parking lot is full", e.getMessage());
-      }
-
+        try {
+            parkingLotService.park(vehicle);
+            parkingLotService.park(vehicle1);
+            parkingLotService.park(vehicle2);
+            boolean IsParkingLotFull = ParkingLotService.parkingLotOwner();
+            Assertions.assertFalse(IsParkingLotFull);
+        } catch (ParkingLotException e) {
+            Assertions.assertEquals("Parking lot is full", e.getMessage());
+        }
     }
-
 }
