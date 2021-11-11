@@ -1,21 +1,25 @@
 package com.bridgelabz;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 public class ParkingLotService {
 
-    private static final int MAX_CAPACITY = 3;
-    private Object vehicle;
+    public static final int MAX_CAPACITY = 3;
+    public Object vehicle;
+    private static boolean result;
 
     HashSet<Object> list=new HashSet<>(3);
 
+
+
     public void park(Object vehicle) throws ParkingLotException {
+
         if (list.size() == MAX_CAPACITY) {
             throw new ParkingLotException("Parking lot is full");
         }
         this.vehicle = vehicle;
         list.add(vehicle);
+        result = parkingLotOwner();
     }
 
     public void unPark(Object vehicle) throws ParkingLotException {
@@ -41,4 +45,7 @@ public class ParkingLotService {
         }
         return false;
     }
-}
+    public static boolean parkingLotOwner() {
+        return result;
+    }
+    }
