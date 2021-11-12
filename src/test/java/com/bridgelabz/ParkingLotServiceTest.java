@@ -18,53 +18,42 @@ public class ParkingLotServiceTest {
 
     @Test
     void givenAVechicle_WhenParked_ShouldReturnTrue() {
-        try {
+
             Vehicle vehicle = new Vehicle("Tata", "TN-9876");
             parkingLotService.park(vehicle);
             boolean isParked = parkingLotService.isVehicleParked(vehicle);
             Assertions.assertTrue(isParked);
-        } catch (ParkingLotException e) {
-            e.printStackTrace();
-        }
     }
 
     @Test
     void givenAVechicle_WhenUnParked_ShouldReturnTrue() {
-        try {
+
             Vehicle vehicle = new Vehicle("Tata", "TN-9876");
             parkingLotService.park(vehicle);
             parkingLotService.unPark(vehicle);
             boolean isUnParked = parkingLotService.isVehicleUnParked(vehicle);
             Assertions.assertTrue(isUnParked);
-        } catch (ParkingLotException e) {
-            e.printStackTrace();
-        }
     }
 
     @Test
     void givenNull_WhenUnParked_ShouldReturnException() {
-        try {
-            parkingLotService.unPark(null);
-        } catch (ParkingLotException e) {
-            Assertions.assertEquals("Vechicle is not parked", e.getMessage());
-        }
+
+        Assertions.assertThrows(ParkingLotException.class,()->{parkingLotService.unPark(null);});
+
     }
 
     @Test
     void givenAParkedVehicle_WhenUnparkedDifferentVechicle_ShouldReturnException() {
-        try {
+
             Vehicle vehicle = new Vehicle("Tata", "TN-9876");
             Vehicle vehicle1 = new Vehicle("ford", "TN-1234");
             parkingLotService.park(vehicle);
-            parkingLotService.unPark(vehicle1);
-        } catch (ParkingLotException e) {
-            Assertions.assertEquals("This not your vehicle", e.getMessage());
-        }
+        Assertions.assertThrows(ParkingLotException.class,()->{parkingLotService.unPark(vehicle1);});
     }
 
     @Test
     void givensameVechicle_WhenParked_ShouldNotAdded() {
-        try {
+
             Vehicle vehicle = new Vehicle("Tata", "TN-9876");
             Vehicle vehicle1 = new Vehicle("Ford", "TN-954");
             Vehicle vehicle2 = new Vehicle("BMW", "TN-9321");
@@ -72,14 +61,13 @@ public class ParkingLotServiceTest {
             parkingLotService.park(vehicle);
             parkingLotService.park(vehicle1);
             parkingLotService.park(vehicle2);
-        } catch (ParkingLotException e) {
-            Assertions.assertEquals("Parking lot is full", e.getMessage());
-        }
+        boolean isvehicleParked = parkingLotService.isVehicleParked(vehicle2);
+        Assertions.assertTrue(isvehicleParked);
     }
 
     @Test
     void givenVehicle_WhenParkingLotIsFull_shouldReturnException() {
-        try {
+
             Vehicle vehicle = new Vehicle("Tata", "TN-9876");
             Vehicle vehicle1 = new Vehicle("Ford", "TN-954");
             Vehicle vehicle2 = new Vehicle("BMW", "TN-9321");
@@ -87,10 +75,7 @@ public class ParkingLotServiceTest {
             parkingLotService.park(vehicle);
             parkingLotService.park(vehicle1);
             parkingLotService.park(vehicle2);
-            parkingLotService.park(vehicle3);
-        } catch (ParkingLotException e) {
-            Assertions.assertEquals("Parking lot is full", e.getMessage());
-        }
+            Assertions.assertThrows(ParkingLotException.class,()->{parkingLotService.park(vehicle3);});
     }
 
     @Test
@@ -99,14 +84,10 @@ public class ParkingLotServiceTest {
         Vehicle vehicle1 = new Vehicle("Ford", "TN-954");
         Vehicle vehicle2 = new Vehicle("BMW", "TN-9321");
 
-        try {
             parkingLotService.park(vehicle);
             parkingLotService.park(vehicle1);
             parkingLotService.park(vehicle2);
             boolean IsParkingLotFull = ParkingLotService.parkingLotOwner();
             Assertions.assertFalse(IsParkingLotFull);
-        } catch (ParkingLotException e) {
-            Assertions.assertEquals("Parking lot is full", e.getMessage());
-        }
     }
 }

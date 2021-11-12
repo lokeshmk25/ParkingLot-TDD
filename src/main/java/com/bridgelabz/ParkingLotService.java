@@ -11,6 +11,7 @@ public class ParkingLotService {
     public static final int MAX_CAPACITY = 3;
     private static boolean result;
     public Object vehicle;
+
     HashSet<Object> list = new HashSet<>(3);
 
     /**
@@ -28,7 +29,7 @@ public class ParkingLotService {
      *                result to owner
      * @throws ParkingLotException it occurs when parking lot is full
      */
-    public void park(Object vehicle) throws ParkingLotException {
+    public void park(Object vehicle)  {
 
         if (list.size() == MAX_CAPACITY) {
             throw new ParkingLotException("Parking lot is full");
