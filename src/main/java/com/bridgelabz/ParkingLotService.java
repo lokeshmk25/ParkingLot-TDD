@@ -11,15 +11,10 @@ public class ParkingLotService {
     public static final int MAX_CAPACITY = 3;
     private static boolean result;
     public Object vehicle;
+    private ParkingLotOwner owner;
 
     HashSet<Object> list = new HashSet<>(3);
 
-    /**
-     * @return result to owner
-     */
-    public static boolean parkingLotOwner() {
-        return result;
-    }
 
     /**
      * PURPOSE -  parking is done in this method
@@ -30,13 +25,14 @@ public class ParkingLotService {
      * @throws ParkingLotException it occurs when parking lot is full
      */
     public void park(Object vehicle)  {
-
         if (list.size() == MAX_CAPACITY) {
+            owner.capacityFull();
             throw new ParkingLotException("Parking lot is full");
         }
         this.vehicle = vehicle;
         list.add(vehicle);
-        result = parkingLotOwner();
+        owner.capacityNotFull();
+
     }
 
     /**
@@ -71,4 +67,9 @@ public class ParkingLotService {
     public boolean isVehicleUnParked(Object vehicle) {
         return this.vehicle.equals(vehicle);
     }
+
+    public void registerOwner(ParkingLotOwner owner) {
+        this.owner = owner;
+    }
 }
+
