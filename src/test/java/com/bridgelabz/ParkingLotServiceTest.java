@@ -117,4 +117,14 @@ public class ParkingLotServiceTest {
         boolean isParked = parkingLotService.isVehicleParked(vehicle);
         Assertions.assertTrue(isParked);
     }
+
+    @Test
+    void givenVechicle_WhenUnParkedByAttendent_ShouldReturnTrue() {
+        parkingLotService.registerOwner(owner);
+        Vehicle vehicle = new Vehicle("Tata", "TN-9876");
+        parkingLotService.park(ParkingLotService.ParkingType.Attendent,vehicle);
+        parkingLotService.unPark(ParkingLotService.ParkingType.Attendent,vehicle);
+        boolean isParked = parkingLotService.isVehicleParked(vehicle);
+        Assertions.assertTrue(isParked);
+    }
 }
