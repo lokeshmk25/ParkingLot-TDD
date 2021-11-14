@@ -6,14 +6,19 @@ import java.util.HashSet;
  * @author Lokesh
  * @since 09/11/21
  */
+
 public class ParkingLotService {
 
     public static final int MAX_CAPACITY = 3;
-    private static boolean result;
     public Object vehicle;
-    private ParkingLotOwner owner;
-
     HashSet<Object> list = new HashSet<>(3);
+    private ParkingLotOwner owner;
+    private ParkingType parkingType;
+
+    /**
+     * Purpose - Enum Parking Type is used to determine who should park
+     */
+    enum ParkingType{Normal,Attendent}
 
 
     /**
@@ -24,11 +29,12 @@ public class ParkingLotService {
      *                result to owner
      * @throws ParkingLotException it occurs when parking lot is full
      */
-    public void park(Object vehicle)  {
+    public void park(ParkingType parkingType,Object vehicle) {
         if (list.size() == MAX_CAPACITY) {
             owner.capacityFull();
             throw new ParkingLotException("Parking lot is full");
         }
+        this.parkingType=parkingType;
         this.vehicle = vehicle;
         list.add(vehicle);
         owner.capacityNotFull();
@@ -42,10 +48,11 @@ public class ParkingLotService {
      *                if vehicle equals parked vehicle then unparking is done,else throws parkinglot exception
      * @throws ParkingLotException it occurs when vehicle is null and different vehicle is unparked
      */
-    public void unPark(Object vehicle) throws ParkingLotException {
+    public void unPark(ParkingType parkingType,Object vehicle) throws ParkingLotException {
         if (vehicle == null)
             throw new ParkingLotException("Vechicle is not parked");
         if (this.vehicle.equals(vehicle)) {
+            this.parkingType=parkingType;
             list.remove(vehicle);
         } else {
             throw new ParkingLotException("This not your vehicle");
@@ -68,6 +75,10 @@ public class ParkingLotService {
         return this.vehicle.equals(vehicle);
     }
 
+    /**
+     * Purpose - to register the parking lot owner
+     * @param owner is given as owner of parking lot
+     */
     public void registerOwner(ParkingLotOwner owner) {
         this.owner = owner;
     }
