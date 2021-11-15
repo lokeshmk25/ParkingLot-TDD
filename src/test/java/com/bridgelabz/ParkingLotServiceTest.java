@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.stream.Stream;
+
 /**
  * @author LOKESH
  * @since 09/11/2021
@@ -127,4 +129,19 @@ public class ParkingLotServiceTest {
         boolean isParked = parkingLotService.isVehicleParked(vehicle);
         Assertions.assertTrue(isParked);
     }
+
+    @Test
+    void givenAParkedVehicle_WhenFound_ShouldReturnEqual() {
+        parkingLotService.registerOwner(owner);
+        Vehicle vehicle = new Vehicle("Tata", "TN-9876");
+        Vehicle vehicle1 = new Vehicle("BMW", "TN-9765");
+        Vehicle vehicle2 = new Vehicle("Ferrari", "TN-7695");
+        parkingLotService.park(ParkingLotService.ParkingType.Normal,vehicle);
+        parkingLotService.park(ParkingLotService.ParkingType.Normal,vehicle1);
+        parkingLotService.park(ParkingLotService.ParkingType.Normal,vehicle2);
+        boolean isAvailable = parkingLotService.searchVechicle(vehicle1);
+        Assertions.assertTrue(isAvailable);
+
+    }
 }
+

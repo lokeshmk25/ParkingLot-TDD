@@ -1,8 +1,8 @@
 package com.bridgelabz;
 
 public class Vehicle {
-    private final String vechicleName;
-    private final String vechicleNo;
+    public final String vechicleName;
+    public final String vechicleNo;
 
     /**
      *
