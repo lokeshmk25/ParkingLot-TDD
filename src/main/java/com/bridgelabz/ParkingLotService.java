@@ -1,10 +1,7 @@
 package com.bridgelabz;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.ArrayList;
+
 
 /**
  * @author Lokesh
@@ -13,17 +10,21 @@ import java.util.stream.Stream;
 
 public class ParkingLotService {
 
-    public static final int MAX_CAPACITY = 3;
+    private final int capacity;
     public Object vehicle;
-    HashSet<Object> list = new HashSet<Object>(3);
+    ArrayList<Object> list;
     private ParkingLotOwner owner;
     private ParkingType parkingType;
+    private AirportSecurity security;
 
-    /**
-     * Purpose - Enum Parking Type is used to determine who should park
-     */
-    enum ParkingType {Normal, Attendent}
+    public ParkingLotService(int capacity) {
+        list = new ArrayList<>();
+        this.capacity = capacity;
+    }
 
+    public void registerSecurity(AirportSecurity airportSecurity) {
+        this.security=airportSecurity;
+    }
 
     /**
      * PURPOSE -  parking is done in this method
@@ -34,15 +35,17 @@ public class ParkingLotService {
      * @throws ParkingLotException it occurs when parking lot is full
      */
     public void park(ParkingType parkingType, Object vehicle) {
-        if (list.size() == MAX_CAPACITY) {
-            owner.capacityFull();
+        if (list.size() != capacity) {
+            this.parkingType = parkingType;
+            this.vehicle = vehicle;
+            if(isVehicleParked(vehicle))
+                throw new ParkingLotException("Vehicle already parked");
+            list.add(vehicle);
+        }
+        else if (list.size() == capacity) {
+            owner.capacityIsFull();
             throw new ParkingLotException("Parking lot is full");
         }
-        this.parkingType = parkingType;
-        this.vehicle = vehicle;
-        list.add(vehicle);
-        owner.capacityNotFull();
-
     }
 
     /**
@@ -68,7 +71,7 @@ public class ParkingLotService {
      * @return result of equality
      */
     public boolean isVehicleParked(Object vehicle) {
-        return this.vehicle.equals(vehicle);
+        return list.contains(vehicle);
     }
 
     /**
@@ -76,7 +79,7 @@ public class ParkingLotService {
      * @return result of equality check
      */
     public boolean isVehicleUnParked(Object vehicle) {
-        return this.vehicle.equals(vehicle);
+        return !list.contains(vehicle);
     }
 
     /**
@@ -88,12 +91,22 @@ public class ParkingLotService {
         this.owner = owner;
     }
 
-    public boolean searchVechicle(Object vehicle){
-        if(list.contains(vehicle)){
-            return true;
-        }
-        return false;
+    /**
+     * Purpose - To check the vehicle if it is present or Not
+     *
+     * @param vehicle is taken as input to check if the vehicle is present or not.
+     * @return boolean true if it contains vehicleeelse returns false
+     */
+    public boolean searchVechicle(Object vehicle) {
+        return list.contains(vehicle);
     }
+
+    /**
+     * Purpose - Enum is created to specify the parking type of the vechicle
+     * Normal is given if te driver himself wishes to park the vehicle
+     * Attendent is used to park the vehicle by attendent
+     */
+    enum ParkingType {NORMAL, ATTENDENT}
 
 }
 
