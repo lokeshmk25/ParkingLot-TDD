@@ -1,6 +1,7 @@
 package com.bridgelabz;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -13,17 +14,17 @@ public class ParkingLotService {
     private final int capacity;
     public Object vehicle;
     ArrayList<Object> list;
-    private ParkingLotOwner owner;
     private ParkingType parkingType;
-    private AirportSecurity security;
+    private List<ParkingLotObserver> observers;
 
     public ParkingLotService(int capacity) {
         list = new ArrayList<>();
+        this.observers=new ArrayList<>();
         this.capacity = capacity;
     }
 
-    public void registerSecurity(AirportSecurity airportSecurity) {
-        this.security=airportSecurity;
+    public void registerObservers(ParkingLotObserver observer) {
+        this.observers.add(observer);
     }
 
     /**
@@ -43,7 +44,9 @@ public class ParkingLotService {
             list.add(vehicle);
         }
         else if (list.size() == capacity) {
-            owner.capacityIsFull();
+            for (ParkingLotObserver observer:observers) {
+                observer.capacityIsFull();
+            }
             throw new ParkingLotException("Parking lot is full");
         }
     }
@@ -58,9 +61,12 @@ public class ParkingLotService {
     public void unPark(ParkingType parkingType, Object vehicle) throws ParkingLotException {
         if (vehicle == null)
             throw new ParkingLotException("Vechicle is not parked");
-        if (this.vehicle.equals(vehicle)) {
+        if (list.contains(vehicle)) {
             this.parkingType = parkingType;
             list.remove(vehicle);
+            for (ParkingLotObserver observer:observers) {
+                observer.capacityIsAvailable();
+            }
         } else {
             throw new ParkingLotException("This not your vehicle");
         }
@@ -82,14 +88,6 @@ public class ParkingLotService {
         return !list.contains(vehicle);
     }
 
-    /**
-     * Purpose - to register the parking lot owner
-     *
-     * @param owner is given as owner of parking lot
-     */
-    public void registerOwner(ParkingLotOwner owner) {
-        this.owner = owner;
-    }
 
     /**
      * Purpose - To check the vehicle if it is present or Not
