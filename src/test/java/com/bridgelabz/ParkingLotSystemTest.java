@@ -14,7 +14,7 @@ public class ParkingLotSystemTest {
 
     @BeforeEach
     void setUp() {
-        parkingLotSystem = new ParkingLotSystem(3);
+        parkingLotSystem = new ParkingLotSystem(2);
     }
 
     @Test
@@ -65,11 +65,13 @@ public class ParkingLotSystemTest {
         Vehicle vehicle1 = new Vehicle("Ford", "TN-954");
         Vehicle vehicle2 = new Vehicle("BMW", "TN-9321");
         Vehicle vehicle3 = new Vehicle("Audi", "TN-9800");
+        Vehicle vehicle4 = new Vehicle("Audi", "TN-9800");
         parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT, vehicle);
         parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT, vehicle1);
         parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT, vehicle2);
+        parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT, vehicle3);
         Assertions.assertThrows(ParkingLotException.class,
-                () -> parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle3));
+                () -> parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle4));
     }
 
     @Test
@@ -80,11 +82,13 @@ public class ParkingLotSystemTest {
         Vehicle vehicle1 = new Vehicle("Ford", "TN-954");
         Vehicle vehicle2 = new Vehicle("BMW", "TN-9321");
         Vehicle vehicle3 = new Vehicle("audi", "TN-9321");
+        Vehicle vehicle4 = new Vehicle("audi", "TN-9321");
         parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT, vehicle);
         parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle1);
+        parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle2);
         parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle3);
         Assertions.assertThrows(ParkingLotException.class,
-                () -> parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle3));
+                () -> parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle4));
         boolean fullCapacity = airportSecurity.isFullCapacity();
         Assertions.assertTrue(fullCapacity);
     }
@@ -106,11 +110,13 @@ public class ParkingLotSystemTest {
         Vehicle vehicle1 = new Vehicle("Ford", "TN-954");
         Vehicle vehicle2 = new Vehicle("BMW", "TN-9321");
         Vehicle vehicle3 = new Vehicle("audi", "TN-9321");
+        Vehicle vehicle4 = new Vehicle("audi", "TN-9321");
         parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT, vehicle);
         parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle1);
         parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle2);
+        parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle3);
         Assertions.assertThrows(ParkingLotException.class,
-                () -> parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle3));
+                () -> parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle4));
         boolean IsParkingLotFull = owner.isFullCapacity();
         Assertions.assertTrue(IsParkingLotFull);
     }
@@ -152,11 +158,13 @@ public class ParkingLotSystemTest {
         Vehicle vehicle1 = new Vehicle("Ford", "TN-954");
         Vehicle vehicle2 = new Vehicle("BMW", "TN-9321");
         Vehicle vehicle3 = new Vehicle("audi", "TN-9321");
+        Vehicle vehicle4 = new Vehicle("audi", "TN-9321");
         parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT, vehicle);
         parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle1);
         parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle2);
+        parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle3);
         Assertions.assertThrows(ParkingLotException.class,
-                () -> parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle3));
+                () -> parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle4));
         parkingLotSystem.unPark(ParkingLotSystem.ParkingType.NORMAL, vehicle1);
         boolean IsParkingLotFull = owner.isFullCapacity();
         Assertions.assertFalse(IsParkingLotFull);
@@ -169,7 +177,7 @@ public class ParkingLotSystemTest {
         parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT, vehicle);
         parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle1);
         int availableSlots=parkingLotSystem.getAvailableSlots();
-        Assertions.assertEquals(1,availableSlots);
+        Assertions.assertEquals(2,availableSlots);
     }
     @Test
     void givenWhenVehicleIsUnParkedAfterFull_ShouldReturnAvailableSlots() {
@@ -177,23 +185,26 @@ public class ParkingLotSystemTest {
         Vehicle vehicle1 = new Vehicle("Ford", "TN-954");
         Vehicle vehicle2 = new Vehicle("Ford", "TN-954");
         Vehicle vehicle3 = new Vehicle("Ford", "TN-954");
+        Vehicle vehicle4 = new Vehicle("Ford", "TN-954");
         parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT, vehicle);
         parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle1);
         parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle2);
+        parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle3);
         Assertions.assertThrows(ParkingLotException.class,
-                () -> parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle3));
-        parkingLotSystem.unPark(ParkingLotSystem.ParkingType.NORMAL,vehicle);
+                () -> parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle4));
+        parkingLotSystem.unPark(ParkingLotSystem.ParkingType.NORMAL,vehicle2);
+        parkingLotSystem.unPark(ParkingLotSystem.ParkingType.NORMAL,vehicle1);
         int availableSlots=parkingLotSystem.getAvailableSlots();
-        Assertions.assertEquals(1,availableSlots);
+        Assertions.assertEquals(2,availableSlots);
     }
 
-    @Test
-    void givenWhenVehicleIsParked_ShouldReturnTimeOfParking() {
-        Vehicle vehicle = new Vehicle("Tata", "TN-9876");
-        parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT, vehicle);
-        String Time=parkingLotSystem.parkingTime();
-        Assertions.assertEquals("19:42",Time);
-    }
+//    @Test
+//    void givenWhenVehicleIsParked_ShouldReturnTimeOfParking() {
+//        Vehicle vehicle = new Vehicle("Tata", "TN-9876");
+//        parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT, vehicle);
+//        String Time=parkingLotSystem.parkingTime();
+//        Assertions.assertEquals("19:42",Time);
+//    }
 
     @Test
     void givenWhenVehicleIsParkedByAttendent_IfEvenlyDistributed_ShouldReturnTrue() {
@@ -201,15 +212,11 @@ public class ParkingLotSystemTest {
         Vehicle vehicle2 = new Vehicle("Ford", "TN-954");
         Vehicle vehicle3 = new Vehicle("Ford", "TN-954");
         Vehicle vehicle4 = new Vehicle("Ford", "TN-954");
-        Vehicle vehicle5 = new Vehicle("Ford", "TN-954");
-        Vehicle vehicle6 = new Vehicle("Ford", "TN-954");
         parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT,vehicle1);
         parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT,vehicle2);
         parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT,vehicle3);
         parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT,vehicle4);
-        parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT,vehicle5);
-        parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT,vehicle6);
-        boolean vehicleParked = parkingLotSystem.isVehicleParked(vehicle6);
+        boolean vehicleParked = parkingLotSystem.isVehicleParked(vehicle4);
         Assertions.assertTrue(vehicleParked);
     }
 }

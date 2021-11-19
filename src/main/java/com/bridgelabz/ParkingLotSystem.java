@@ -22,8 +22,8 @@ public class ParkingLotSystem<time> {
     public String parkingTime;
 
     public ParkingLotSystem(int capacity) {
-        list = new ArrayList<>(3);
-        list1 = new ArrayList<>(3);
+        list = new ArrayList<>();
+        list1 = new ArrayList<>();
         this.observers=new ArrayList<>();
         this.capacity = capacity;
     }
@@ -51,7 +51,7 @@ public class ParkingLotSystem<time> {
         if ((list.size() != capacity) || (list1.size()!=capacity)){
             this.parkingType = parkingType;
             this.vehicle = vehicle;
-            if(isVehicleParked(vehicle))
+            if(list.contains(vehicle)||list1.contains(vehicle))
                 throw new ParkingLotException("Vehicle already parked");
             if(list.size()>=list1.size())
                 list1.add(vehicle);
@@ -84,6 +84,12 @@ public class ParkingLotSystem<time> {
             for (ParkingLotObserver observer:observers) {
                 observer.capacityIsAvailable();
             }
+        }
+        else if(list1.contains(vehicle)){
+                list1.remove(vehicle);
+            for (ParkingLotObserver observer:observers) {
+                observer.capacityIsAvailable();
+            }
         } else {
             throw new ParkingLotException("This not your vehicle");
         }
@@ -94,7 +100,8 @@ public class ParkingLotSystem<time> {
      * @return result of equality
      */
     public boolean isVehicleParked(Object vehicle) {
-        return list.contains(vehicle);
+       if(list.contains(vehicle)||list1.contains(vehicle));
+       return true;
     }
 
     /**
@@ -102,7 +109,7 @@ public class ParkingLotSystem<time> {
      * @return result of equality check
      */
     public boolean isVehicleUnParked(Object vehicle) {
-        return !list.contains(vehicle);
+        return!(list.contains(vehicle)||list1.contains(vehicle));
     }
 
 
@@ -116,13 +123,12 @@ public class ParkingLotSystem<time> {
         return list.contains(vehicle);
     }
 
-    public int getAvailableSlots()throws ParkingLotException{
-
-            if (list!=null){
-                return capacity - list.size();
-            }else {
-                throw new ParkingLotException("Parking lot is full");
-            }
+    public int getAvailableSlots()throws ParkingLotException {
+        if (list1!=null || (list != null))
+            return (2*capacity - (list.size() + list1.size()));
+        else {
+            throw new ParkingLotException("Parking lot is not full");
+        }
     }
 
     /**
