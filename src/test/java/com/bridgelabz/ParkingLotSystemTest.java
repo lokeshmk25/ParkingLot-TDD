@@ -171,20 +171,20 @@ public class ParkingLotSystemTest {
         int availableSlots=parkingLotSystem.getAvailableSlots();
         Assertions.assertEquals(1,availableSlots);
     }
-//    @Test
-//    void givenWhenVehicleIsUnParkedAfterFull_ShouldReturnAvailableSlots() {
-//        Vehicle vehicle = new Vehicle("Tata", "TN-9876");
-//        Vehicle vehicle1 = new Vehicle("Ford", "TN-954");
-//        Vehicle vehicle2 = new Vehicle("Ford", "TN-954");
-//        Vehicle vehicle3 = new Vehicle("Ford", "TN-954");
-//        parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT, vehicle);
-//        parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle1);
-//        parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle2);
-//        Assertions.assertThrows(ParkingLotException.class,
-//                () -> parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle3));
-//        parkingLotSystem.unPark(ParkingLotSystem.ParkingType.NORMAL,vehicle);
-//        int availableSlots=parkingLotSystem.getAvailableSlots();
-//        Assertions.assertEquals(1,availableSlots);
-//    }
+    @Test
+    void givenWhenVehicleIsUnParkedAfterFull_ShouldReturnAvailableSlots() {
+        Vehicle vehicle = new Vehicle("Tata", "TN-9876");
+        Vehicle vehicle1 = new Vehicle("Ford", "TN-954");
+        Vehicle vehicle2 = new Vehicle("Ford", "TN-954");
+        Vehicle vehicle3 = new Vehicle("Ford", "TN-954");
+        parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT, vehicle);
+        parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle1);
+        parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle2);
+        Assertions.assertThrows(ParkingLotException.class,
+                () -> parkingLotSystem.park(ParkingLotSystem.ParkingType.NORMAL, vehicle3));
+        parkingLotSystem.unPark(ParkingLotSystem.ParkingType.NORMAL,vehicle);
+        int availableSlots=parkingLotSystem.getAvailableSlots();
+        Assertions.assertEquals(1,availableSlots);
+    }
 }
 
