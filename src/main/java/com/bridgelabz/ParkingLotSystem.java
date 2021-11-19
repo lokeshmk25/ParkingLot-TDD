@@ -9,7 +9,7 @@ import java.util.List;
  * @since 09/11/21
  */
 
-public class ParkingLotService {
+public class ParkingLotSystem {
 
     private final int capacity;
     public Object vehicle;
@@ -17,8 +17,8 @@ public class ParkingLotService {
     private ParkingType parkingType;
     private List<ParkingLotObserver> observers;
 
-    public ParkingLotService(int capacity) {
-        list = new ArrayList<>();
+    public ParkingLotSystem(int capacity) {
+        list = new ArrayList<>(3);
         this.observers=new ArrayList<>();
         this.capacity = capacity;
     }
@@ -97,6 +97,15 @@ public class ParkingLotService {
      */
     public boolean searchVechicle(Object vehicle) {
         return list.contains(vehicle);
+    }
+
+    public int getAvailableSlots()throws ParkingLotException{
+
+            if (list!=null){
+                return capacity - list.size();
+            }else {
+                throw new ParkingLotException("Parking lot is full");
+            }
     }
 
     /**
