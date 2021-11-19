@@ -194,5 +194,23 @@ public class ParkingLotSystemTest {
         String Time=parkingLotSystem.parkingTime();
         Assertions.assertEquals("19:42",Time);
     }
+
+    @Test
+    void givenWhenVehicleIsParkedByAttendent_IfEvenlyDistributed_ShouldReturnTrue() {
+        Vehicle vehicle1 = new Vehicle("Ford", "TN-954");
+        Vehicle vehicle2 = new Vehicle("Ford", "TN-954");
+        Vehicle vehicle3 = new Vehicle("Ford", "TN-954");
+        Vehicle vehicle4 = new Vehicle("Ford", "TN-954");
+        Vehicle vehicle5 = new Vehicle("Ford", "TN-954");
+        Vehicle vehicle6 = new Vehicle("Ford", "TN-954");
+        parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT,vehicle1);
+        parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT,vehicle2);
+        parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT,vehicle3);
+        parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT,vehicle4);
+        parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT,vehicle5);
+        parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT,vehicle6);
+        boolean vehicleParked = parkingLotSystem.isVehicleParked(vehicle6);
+        Assertions.assertTrue(vehicleParked);
+    }
 }
 

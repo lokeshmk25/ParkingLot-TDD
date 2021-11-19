@@ -16,12 +16,14 @@ public class ParkingLotSystem<time> {
     private final int capacity;
     public Object vehicle;
     ArrayList<Object> list;
+    ArrayList<Object> list1;
     private ParkingType parkingType;
     private List<ParkingLotObserver> observers;
     public String parkingTime;
 
     public ParkingLotSystem(int capacity) {
         list = new ArrayList<>(3);
+        list1 = new ArrayList<>(3);
         this.observers=new ArrayList<>();
         this.capacity = capacity;
     }
@@ -46,12 +48,15 @@ public class ParkingLotSystem<time> {
      * @throws ParkingLotException it occurs when parking lot is full
      */
     public void park(ParkingType parkingType, Object vehicle) {
-        if (list.size() != capacity) {
+        if ((list.size() != capacity) || (list1.size()!=capacity)){
             this.parkingType = parkingType;
             this.vehicle = vehicle;
             if(isVehicleParked(vehicle))
                 throw new ParkingLotException("Vehicle already parked");
-            list.add(vehicle);
+            if(list.size()>=list1.size())
+                list1.add(vehicle);
+            else
+                list.add(vehicle);
             parkingTime();
         }
         else {
