@@ -186,5 +186,13 @@ public class ParkingLotSystemTest {
         int availableSlots=parkingLotSystem.getAvailableSlots();
         Assertions.assertEquals(1,availableSlots);
     }
+
+    @Test
+    void givenWhenVehicleIsParked_ShouldReturnTimeOfParking() {
+        Vehicle vehicle = new Vehicle("Tata", "TN-9876");
+        parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT, vehicle);
+        String Time=parkingLotSystem.parkingTime();
+        Assertions.assertEquals("19:42",Time);
+    }
 }
 

@@ -1,5 +1,7 @@
 package com.bridgelabz;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,18 +11,26 @@ import java.util.List;
  * @since 09/11/21
  */
 
-public class ParkingLotSystem {
+public class ParkingLotSystem<time> {
 
     private final int capacity;
     public Object vehicle;
     ArrayList<Object> list;
     private ParkingType parkingType;
     private List<ParkingLotObserver> observers;
+    public String parkingTime;
 
     public ParkingLotSystem(int capacity) {
         list = new ArrayList<>(3);
         this.observers=new ArrayList<>();
         this.capacity = capacity;
+    }
+
+    public String parkingTime(){
+        LocalDateTime dateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        parkingTime = dateTime.format(formatter);
+        return parkingTime;
     }
 
     public void registerObservers(ParkingLotObserver observer) {
@@ -42,14 +52,16 @@ public class ParkingLotSystem {
             if(isVehicleParked(vehicle))
                 throw new ParkingLotException("Vehicle already parked");
             list.add(vehicle);
+            parkingTime();
         }
-        else if (list.size() == capacity) {
+        else {
             for (ParkingLotObserver observer:observers) {
                 observer.capacityIsFull();
             }
             throw new ParkingLotException("Parking lot is full");
         }
     }
+
 
     /**
      * PURPOSE - To unpark parked vehicle
