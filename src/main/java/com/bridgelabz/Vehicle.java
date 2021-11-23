@@ -20,6 +20,7 @@ public class Vehicle {
         this.vehicleColour=vehicleColour;
     }
 
+
     public String getVechicleName() {
         return vechicleName;
     }
@@ -30,5 +31,14 @@ public class Vehicle {
 
     public String getVehicleColour() {
         return vehicleColour;
+    }
+
+    @Override
+    public String toString() {
+        return "Vehicle{" +
+                "vechicleName='" + vechicleName + '\'' +
+                ", vechicleNo='" + vechicleNo + '\'' +
+                ", vehicleColour='" + vehicleColour + '\'' +
+                '}';
     }
 }

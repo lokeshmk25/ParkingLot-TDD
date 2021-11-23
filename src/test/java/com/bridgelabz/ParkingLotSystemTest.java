@@ -231,8 +231,24 @@ public class ParkingLotSystemTest {
         parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT, vehicle2);
         parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT, vehicle3);
         parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT, vehicle4);
-        int position = parkingLotSystem.getPosition(vehicle1, "White");
-        Assertions.assertEquals(0, position);
+        int position = parkingLotSystem.getPosition(vehicle1,"White");
+        Assertions.assertEquals(1,position);
+
+    }
+
+    @Test
+    void givenWhenBlueColourVehicleIsParked_ShouldReturnPosition() {
+        Vehicle vehicle1 = new Vehicle("Ford", "TN-954", "White");
+        Vehicle vehicle2 = new Vehicle("Ford", "TN-954", "Black");
+        Vehicle vehicle3 = new Vehicle("Ford", "TN-954", "Blue");
+        Vehicle vehicle4 = new Vehicle("Ford", "TN-954", "Green");
+        parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT, vehicle1);
+        parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT, vehicle2);
+        parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT, vehicle3);
+        parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT, vehicle4);
+        int position = parkingLotSystem.getPosition(vehicle3,"Blue");
+        Assertions.assertEquals(1,position);
+
     }
 }
 

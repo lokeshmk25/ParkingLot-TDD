@@ -2,7 +2,8 @@ package com.bridgelabz;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -14,11 +15,11 @@ public class ParkingLotSystem {
 
     private final int capacity;
     public Object vehicle;
+    public String parkingTime;
     ArrayList<Object> list;
     ArrayList<Object> list1;
     private ParkingType parkingType;
-    private List<ParkingLotObserver> observers;
-    public String parkingTime;
+    private final List<ParkingLotObserver> observers;
 
     public ParkingLotSystem(int capacity) {
         list = new ArrayList<>();
@@ -28,16 +29,9 @@ public class ParkingLotSystem {
     }
 
     /**
-     * Purpose - Enum is created to specify the parking type of the vechicle
-     * Normal is given if te driver himself wishes to park the vehicle
-     * Attendent is used to park the vehicle by attendent
-     */
-
-    enum ParkingType {NORMAL, ATTENDENT}
-
-    /**
      * Purpose - To get the parking Time of vehicle here System local Time
-     *           is given and the time pattern is changed by time formatter
+     * is given and the time pattern is changed by time formatter
+     *
      * @return Parking time of vehicle
      */
     public String parkingTime() {
@@ -49,6 +43,7 @@ public class ParkingLotSystem {
 
     /**
      * Purpose - To Register the observers of Parking Lot
+     *
      * @param observer is added to register the observer of Parking lot system
      */
     public void registerObservers(ParkingLotObserver observer) {
@@ -57,10 +52,11 @@ public class ParkingLotSystem {
 
     /**
      * PURPOSE -  parking is done in this method
+     *
      * @param parkingType is given to specify the Parking Type of the vehicle enum NORMAL and ATTENDENT is used
-     * @param vehicle is given as input ,in if condition it checks equality of list size and maximum capacity
-     *                If both are equal it throws parking lot exception else it adds vechicle to the list and returns
-     *                result to owner
+     * @param vehicle     is given as input ,in if condition it checks equality of list size and maximum capacity
+     *                    If both are equal it throws parking lot exception else it adds vechicle to the list and returns
+     *                    result to owner
      * @throws ParkingLotException it occurs when parking lot is full
      */
     public void park(ParkingType parkingType, Object vehicle) {
@@ -81,7 +77,6 @@ public class ParkingLotSystem {
             throw new ParkingLotException("Parking lot is full");
         }
     }
-
 
     /**
      * PURPOSE - To unpark parked vehicle
@@ -120,13 +115,13 @@ public class ParkingLotSystem {
 
     /**
      * Purpose - To check whether the given vehicle is unparked or not
+     *
      * @param vehicle is given as input
      * @return result of equality check
      */
     public boolean isVehicleUnParked(Object vehicle) {
         return !(list.contains(vehicle) || list1.contains(vehicle));
     }
-
 
     /**
      * Purpose - To check the vehicle if it is present or Not
@@ -140,6 +135,7 @@ public class ParkingLotSystem {
 
     /**
      * Purpose - To get available slots for Parking the vehicle
+     *
      * @return - Available slots in list & list1
      * @throws ParkingLotException if the parking lot is full
      */
@@ -151,13 +147,6 @@ public class ParkingLotSystem {
         }
     }
 
-    /**
-     * Purpose - To get the vehicle Position of the given colour
-     * @param vehicle to check the equalitu with given colour
-     * @param colour is used to check the identity of vehicle
-     * @return index position of vehicle
-     * @throws ParkingLotException if vehicle is not present
-     */
     public int getPosition(Vehicle vehicle, String colour) throws ParkingLotException {
         if (list.contains(vehicle)) {
             vehicle.getVehicleColour().equals(colour);
@@ -171,11 +160,37 @@ public class ParkingLotSystem {
                 if (position.equals(vehicle))
                     return list1.indexOf(position);
             }
-        }
-        else
+        } else
             throw new ParkingLotException("No vehicle found");
-             return 0;
+        return 0;
     }
+
+    public int getPosition(Vehicle vehicle, String colour, String vehicleName) throws ParkingLotException {
+        if (list.contains(vehicle) &&
+                vehicle.getVehicleColour().equals(colour)
+                && vehicle.getVechicleName().equals(vehicleName)) ;
+        for (Object position : list) {
+            if (position.equals(vehicle))
+                return list.indexOf(position);
+
+        }
+        if (list1.contains(vehicle) &&
+                vehicle.getVehicleColour().equals(colour)
+                && vehicle.getVechicleName().equals(vehicleName)) ;
+        for (Object position : list1) {
+            if (position.equals(vehicle))
+                return list1.indexOf(position);
+        }
+        throw new ParkingLotException("No vehicle found");
+    }
+
+    /**
+     * Purpose - Enum is created to specify the parking type of the vechicle
+     * Normal is given if te driver himself wishes to park the vehicle
+     * Attendent is used to park the vehicle by attendent
+     */
+
+    enum ParkingType {NORMAL, ATTENDENT}
 }
 
 
