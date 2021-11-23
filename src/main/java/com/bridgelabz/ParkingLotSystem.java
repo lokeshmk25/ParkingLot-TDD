@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -14,6 +16,7 @@ import java.util.List;
 public class ParkingLotSystem {
 
     private final int capacity;
+    ArrayList<Object> list3;
     public Object vehicle;
     public String parkingTime;
     ArrayList<Object> list;
@@ -24,8 +27,47 @@ public class ParkingLotSystem {
     public ParkingLotSystem(int capacity) {
         list = new ArrayList<>();
         list1 = new ArrayList<>();
+        list3=new ArrayList<>();
         this.observers = new ArrayList<>();
         this.capacity = capacity;
+    }
+    /**
+     * Purpose - Enum is created to specify the parking type of the vechicle
+     * Normal is given if te driver himself wishes to park the vehicle
+     * Attendent is used to park the vehicle by attendent
+     */
+
+    enum ParkingType {NORMAL, ATTENDENT}
+
+    /**
+     * PURPOSE -  parking is done in this method
+     *
+     * @param parkingType is given to specify the Parking Type of the vehicle enum NORMAL and ATTENDENT is used
+     * @param vehicle     is given as input ,in if condition it checks equality of list size and maximum capacity
+     *                    If both are equal it throws parking lot exception else it adds vechicle to the list and returns
+     *                    result to owner
+     * @throws ParkingLotException it occurs when parking lot is full
+     */
+
+    public void park(ParkingType parkingType, Object vehicle) {
+        if ((list.size() != capacity) || (list1.size() != capacity)) {
+            this.parkingType = parkingType;
+            this.vehicle = vehicle;
+            if (list.contains(vehicle) || list1.contains(vehicle))
+                throw new ParkingLotException
+                        (ParkingLotException.ExceptionType.VEHICLE_ALREADY_PARKED);
+            if (list.size() >= list1.size())
+                list1.add(vehicle);
+            else
+                list.add(vehicle);
+            parkingTime();
+        } else {
+            for (ParkingLotObserver observer : observers) {
+                observer.capacityIsFull();
+            }
+            throw new ParkingLotException
+                    (ParkingLotException.ExceptionType.PARKING_LOT_FULL);
+        }
     }
 
     /**
@@ -50,33 +92,6 @@ public class ParkingLotSystem {
         this.observers.add(observer);
     }
 
-    /**
-     * PURPOSE -  parking is done in this method
-     *
-     * @param parkingType is given to specify the Parking Type of the vehicle enum NORMAL and ATTENDENT is used
-     * @param vehicle     is given as input ,in if condition it checks equality of list size and maximum capacity
-     *                    If both are equal it throws parking lot exception else it adds vechicle to the list and returns
-     *                    result to owner
-     * @throws ParkingLotException it occurs when parking lot is full
-     */
-    public void park(ParkingType parkingType, Object vehicle) {
-        if ((list.size() != capacity) || (list1.size() != capacity)) {
-            this.parkingType = parkingType;
-            this.vehicle = vehicle;
-            if (list.contains(vehicle) || list1.contains(vehicle))
-                throw new ParkingLotException("Vehicle already parked");
-            if (list.size() >= list1.size())
-                list1.add(vehicle);
-            else
-                list.add(vehicle);
-            parkingTime();
-        } else {
-            for (ParkingLotObserver observer : observers) {
-                observer.capacityIsFull();
-            }
-            throw new ParkingLotException("Parking lot is full");
-        }
-    }
 
     /**
      * PURPOSE - To unpark parked vehicle
@@ -87,7 +102,8 @@ public class ParkingLotSystem {
      */
     public void unPark(ParkingType parkingType, Object vehicle) throws ParkingLotException {
         if (vehicle == null)
-            throw new ParkingLotException("Vechicle is not parked");
+            throw new ParkingLotException
+                    (ParkingLotException.ExceptionType.VEHICLE_NOT_PARKED);
         if (list.contains(vehicle)) {
             this.parkingType = parkingType;
             list.remove(vehicle);
@@ -100,7 +116,8 @@ public class ParkingLotSystem {
                 observer.capacityIsAvailable();
             }
         } else {
-            throw new ParkingLotException("This not your vehicle");
+            throw new ParkingLotException
+                    (ParkingLotException.ExceptionType.NOT_YOUR_VEHICLE);
         }
     }
 
@@ -143,7 +160,8 @@ public class ParkingLotSystem {
         if (list1 != null || (list != null))
             return (2 * capacity - (list.size() + list1.size()));
         else {
-            throw new ParkingLotException("Parking lot is not full");
+            throw new ParkingLotException
+                    (ParkingLotException.ExceptionType.PARKING_LOT_NOT_FULL);
         }
     }
 
@@ -161,7 +179,8 @@ public class ParkingLotSystem {
                     return list1.indexOf(position);
             }
         } else
-            throw new ParkingLotException("No vehicle found");
+            throw new ParkingLotException
+                    (ParkingLotException.ExceptionType.VEHICLE_NOT_FOUND);
         return 0;
     }
 
@@ -181,16 +200,21 @@ public class ParkingLotSystem {
             if (position.equals(vehicle))
                 return list1.indexOf(position);
         }
-        throw new ParkingLotException("No vehicle found");
+        throw new ParkingLotException
+                (ParkingLotException.ExceptionType.VEHICLE_NOT_FOUND);
     }
 
-    /**
-     * Purpose - Enum is created to specify the parking type of the vechicle
-     * Normal is given if te driver himself wishes to park the vehicle
-     * Attendent is used to park the vehicle by attendent
-     */
+    public boolean validateNumberPlate(String vehicleNo) {
+        if (vehicleNo.isEmpty())
+            return false;
+        Pattern pattern = Pattern.compile("^[A-Z]{2}[ -][A-Z]{1,2}[0-9]{4}$");
+        Matcher matcher = pattern.matcher(vehicleNo);
+        return matcher.matches();
+    }
 
-    enum ParkingType {NORMAL, ATTENDENT}
+
+
+
 }
 
 

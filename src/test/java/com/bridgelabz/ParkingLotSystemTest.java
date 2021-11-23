@@ -232,7 +232,7 @@ public class ParkingLotSystemTest {
         parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT, vehicle3);
         parkingLotSystem.park(ParkingLotSystem.ParkingType.ATTENDENT, vehicle4);
         int position = parkingLotSystem.getPosition(vehicle1,"White");
-        Assertions.assertEquals(1,position);
+        Assertions.assertEquals(0,position);
 
     }
 
@@ -265,5 +265,13 @@ public class ParkingLotSystemTest {
         Assertions.assertEquals(1,position);
 
     }
+
+    @Test
+    void givenVehicleNumber_WhenValidated_ShouldReturnTrue() {
+        Vehicle vehicle1 = new Vehicle("Ford", "TN-L9547", "White");
+        boolean isValidated = parkingLotSystem.validateNumberPlate(vehicle1.getVechicleNo());
+        Assertions.assertTrue(isValidated);
+    }
+
 }
 

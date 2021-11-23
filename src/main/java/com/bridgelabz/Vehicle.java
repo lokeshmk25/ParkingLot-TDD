@@ -20,6 +20,10 @@ public class Vehicle {
         this.vehicleColour=vehicleColour;
     }
 
+    enum DriverType{
+        NORMAL,HANDICAPPED
+    }
+
 
     public String getVechicleName() {
         return vechicleName;
@@ -33,12 +37,4 @@ public class Vehicle {
         return vehicleColour;
     }
 
-    @Override
-    public String toString() {
-        return "Vehicle{" +
-                "vechicleName='" + vechicleName + '\'' +
-                ", vechicleNo='" + vechicleNo + '\'' +
-                ", vehicleColour='" + vehicleColour + '\'' +
-                '}';
-    }
 }
