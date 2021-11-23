@@ -15,7 +15,6 @@ public class ParkingLotException extends RuntimeException {
     }
 
     public ParkingLotException(ExceptionType exceptionType) {
-//        super(message);
         this.exceptionType=exceptionType;
     }
 }

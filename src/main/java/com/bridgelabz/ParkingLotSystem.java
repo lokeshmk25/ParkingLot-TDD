@@ -21,8 +21,7 @@ public class ParkingLotSystem {
     public String parkingTime;
     ArrayList<Object> list;
     ArrayList<Object> list1;
-    private ParkingType parkingType;
-    private final List<ParkingLotObserver> observers;
+    public final List<ParkingLotObserver> observers;
 
     public ParkingLotSystem(int capacity) {
         list = new ArrayList<>();
@@ -39,7 +38,9 @@ public class ParkingLotSystem {
 
     enum ParkingType {NORMAL, ATTENDENT}
 
-
+    /**
+     * Purpose - Enum DriverType is created to specify handicapped driver
+     */
     enum DriverType{
         HANDICAPPED
     }
@@ -47,16 +48,14 @@ public class ParkingLotSystem {
     /**
      * PURPOSE -  parking is done in this method
      *
-     * @param parkingType is given to specify the Parking Type of the vehicle enum NORMAL and ATTENDENT is used
      * @param vehicle     is given as input ,in if condition it checks equality of list size and maximum capacity
-     *                    If both are equal it throws parking lot exception else it adds vechicle to the list and returns
-     *                    result to owner
+     *                    If both are equal it throws parking lot exception else it adds vechicle
+     *                    to the list and return result to owner
      * @throws ParkingLotException it occurs when parking lot is full
      */
 
-    public void park(ParkingType parkingType, Object vehicle) {
+    public void park(Object vehicle) {
         if ((list.size() != capacity) || (list1.size() != capacity)) {
-            this.parkingType = parkingType;
             this.vehicle = vehicle;
             if (list.contains(vehicle) || list1.contains(vehicle))
                 throw new ParkingLotException
@@ -110,7 +109,6 @@ public class ParkingLotSystem {
             throw new ParkingLotException
                     (ParkingLotException.ExceptionType.VEHICLE_NOT_PARKED);
         if (list.contains(vehicle)) {
-            this.parkingType = parkingType;
             list.remove(vehicle);
             for (ParkingLotObserver observer : observers) {
                 observer.capacityIsAvailable();
@@ -127,6 +125,7 @@ public class ParkingLotSystem {
     }
 
     /**
+     * Purpose - To check the given vehicle is parked or not
      * @param vehicle checks equality of vehicle
      * @return result of equality
      */
@@ -137,7 +136,6 @@ public class ParkingLotSystem {
 
     /**
      * Purpose - To check whether the given vehicle is unparked or not
-     *
      * @param vehicle is given as input
      * @return result of equality check
      */
@@ -147,7 +145,6 @@ public class ParkingLotSystem {
 
     /**
      * Purpose - To check the vehicle if it is present or Not
-     *
      * @param vehicle is taken as input to check if the vehicle is present or not.
      * @return boolean true if it contains vehicleeelse returns false
      */
@@ -157,7 +154,6 @@ public class ParkingLotSystem {
 
     /**
      * Purpose - To get available slots for Parking the vehicle
-     *
      * @return - Available slots in list & list1
      * @throws ParkingLotException if the parking lot is full
      */
@@ -170,6 +166,13 @@ public class ParkingLotSystem {
         }
     }
 
+    /**
+     * Purpose - To get the vehicle position for given colour
+     * @param vehicle : vehicle is given as parameter for validation.
+     * @param colour  : colour is given to check equality with vehicle colour
+     * @return        : if the given colour equals vehicle colour it returns position of the vehicle.
+     * @throws ParkingLotException : If the vehicle is not found
+     */
     public int getPosition(Vehicle vehicle, String colour) throws ParkingLotException {
         if (list.contains(vehicle)) {
             vehicle.getVehicleColour().equals(colour);
@@ -189,6 +192,14 @@ public class ParkingLotSystem {
         return 0;
     }
 
+    /**
+     * Purpose  -  To get position of vehicle based on vehicle name and colour
+     * @param vehicle : It is given to check if the vehicleName and colour equals the vehicle
+     * @param vehicleName : vehicle name is taken as parameter to get the position of vehicle
+     * @param colour : colour is given to check equality with vehicle colour
+     * @return : if the given colou and name equals vehicle it returns position of the vehicle.
+     * @throws ParkingLotException : If the vehicle is not found
+     */
     public int getPosition(Vehicle vehicle, String vehicleName, String colour) throws ParkingLotException {
         if (list.contains(vehicle) &&
                 vehicle.getVehicleColour().equals(colour)
@@ -209,6 +220,11 @@ public class ParkingLotSystem {
                 (ParkingLotException.ExceptionType.VEHICLE_NOT_FOUND);
     }
 
+    /**
+     * Purpose - To validate the given vehicle Number using Regex
+     * @param vehicleNo : Taken as input to validate using Regex
+     * @return : True if the given pattern matches
+     */
     public boolean validateNumberPlate(String vehicleNo) {
         if (vehicleNo.isEmpty())
             return false;
@@ -217,6 +233,11 @@ public class ParkingLotSystem {
         return matcher.matches();
     }
 
+    /**
+     * Purpose - To provide parking lot for Handicapped driver
+     * @param driverType : enum handicapped is provided as driver type
+     * @param vehicle : Is taken as input for parking
+     */
     public void handicapParking(DriverType driverType,Vehicle vehicle){
         if(driverType == DriverType.HANDICAPPED) {
             if(list3.size()!=capacity)
@@ -228,11 +249,13 @@ public class ParkingLotSystem {
                     (ParkingLotException.ExceptionType.PARKING_LOT_FULL);
     }
 
+    /**
+     * Purpose - To check the given vehicle is parked or not
+     * @param vehicle : Is taken as input to check the vehicle is parked or not
+     * @return : True if the vehicle is parked
+     */
     public boolean isHandicapVehicleParked(Object vehicle){
-        if(list3.contains(vehicle)){
-            return true;
-        }
-        return false;
+        return list3.contains(vehicle);
     }
 
 }
