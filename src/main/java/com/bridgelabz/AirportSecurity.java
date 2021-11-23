@@ -1,5 +1,10 @@
 package com.bridgelabz;
 
+/**
+ * @author LOKESH
+ * @since 10/11/21
+ * Purpose - To implement interface parking lot observer
+ */
 public class AirportSecurity implements ParkingLotObserver {
     public boolean isFullCapacity;
 
