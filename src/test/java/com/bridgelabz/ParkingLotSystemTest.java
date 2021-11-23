@@ -273,5 +273,12 @@ public class ParkingLotSystemTest {
         Assertions.assertTrue(isValidated);
     }
 
+    @Test
+    void givenHandicappedDriver_shouldParkedInSeperateLot() {
+        Vehicle vehicle1 = new Vehicle("Ford", "TN-954", "White");
+        parkingLotSystem.handicapParking(ParkingLotSystem.DriverType.HANDICAPPED,vehicle1);
+        boolean vehicleParked = parkingLotSystem.isHandicapVehicleParked(vehicle1);
+        Assertions.assertTrue(vehicleParked);
+    }
 }
 

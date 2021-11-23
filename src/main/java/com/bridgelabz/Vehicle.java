@@ -20,9 +20,6 @@ public class Vehicle {
         this.vehicleColour=vehicleColour;
     }
 
-    enum DriverType{
-        NORMAL,HANDICAPPED
-    }
 
 
     public String getVechicleName() {

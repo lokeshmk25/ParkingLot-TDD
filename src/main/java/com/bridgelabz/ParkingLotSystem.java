@@ -39,6 +39,11 @@ public class ParkingLotSystem {
 
     enum ParkingType {NORMAL, ATTENDENT}
 
+
+    enum DriverType{
+        HANDICAPPED
+    }
+
     /**
      * PURPOSE -  parking is done in this method
      *
@@ -212,8 +217,23 @@ public class ParkingLotSystem {
         return matcher.matches();
     }
 
+    public void handicapParking(DriverType driverType,Vehicle vehicle){
+        if(driverType == DriverType.HANDICAPPED) {
+            if(list3.size()!=capacity)
+            list3.add(vehicle);
+            parkingTime();
+        }
+        else
+            throw new ParkingLotException
+                    (ParkingLotException.ExceptionType.PARKING_LOT_FULL);
+    }
 
-
+    public boolean isHandicapVehicleParked(Object vehicle){
+        if(list3.contains(vehicle)){
+            return true;
+        }
+        return false;
+    }
 
 }
 
