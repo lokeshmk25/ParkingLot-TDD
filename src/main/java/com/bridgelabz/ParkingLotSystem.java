@@ -165,7 +165,7 @@ public class ParkingLotSystem {
         return 0;
     }
 
-    public int getPosition(Vehicle vehicle, String colour, String vehicleName) throws ParkingLotException {
+    public int getPosition(Vehicle vehicle, String vehicleName, String colour) throws ParkingLotException {
         if (list.contains(vehicle) &&
                 vehicle.getVehicleColour().equals(colour)
                 && vehicle.getVechicleName().equals(vehicleName)) ;
